@@ -1,25 +1,33 @@
 import logging
 from typing import List
 import re
+import tiktoken
 from .clear_text import clear_text
 
 logger = logging.getLogger(__name__)
 
 
 
-def split_text_into_chunks(text: str, max_chunk_size: int = 1000) -> List[str]:
+def split_text_into_chunks(text: str, max_chunk_size: int = 5000) -> List[str]:
     logger.info("Dividindo o texto em chunks.")
     text = clear_text(text)
-    sentences = re.split(r'(?<=[.?!])\s+', text)
+    enc = tiktoken.get_encoding("cl100k_base")  # Codificação padrão usada pelo GPT-3
+    tokens = enc.encode(text)
+    
+    # Dividir os tokens em chunks que respeitem o tamanho máximo
     chunks = []
-    current_chunk = ''
-    for sentence in sentences:
-        if len(current_chunk) + len(sentence) <= max_chunk_size:
-            current_chunk += ' ' + sentence
+    current_chunk = []
+    
+    for token in tokens:
+        if len(current_chunk) < max_chunk_size:
+            current_chunk.append(token)
         else:
-            chunks.append(current_chunk.strip())
-            current_chunk = sentence
+            chunks.append(enc.decode(current_chunk))
+            current_chunk = [token]
+    
+    # Adiciona o último chunk
     if current_chunk:
-        chunks.append(current_chunk.strip())
+        chunks.append(enc.decode(current_chunk))
+    
     logging.info(f"Total de chunks criados: {len(chunks)}")
     return chunks

@@ -35,8 +35,8 @@ def main():
             files: Dict[str, str] = read_repository_files(repo_folder, allowed_extensions)
             for _, content in files.items():
                 text += content
-        
-        chunks = split_text_into_chunks(text)        
+
+        chunks = split_text_into_chunks(text)
         embeddings = get_embeddings(chunks, client)
         index = create_faiss_index(embeddings)
         save_embeddings(embeddings, chunks, index)
