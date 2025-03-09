@@ -5,9 +5,9 @@ import faiss
 
 logger = logging.getLogger(__name__)
 
-def load_embeddings(embeddings_file: str = 'embeddings.pkl',
-                    chunks_file: str = 'chunks.pkl',
-                    index_file: str = 'faiss.index'):
+def load_embeddings(embeddings_file: str = 'embeddings/embeddings.pkl',
+                    chunks_file: str = 'embeddings/chunks.pkl',
+                    index_file: str = 'embeddings/faiss.index'):
     if os.path.exists(embeddings_file) and os.path.exists(chunks_file) and os.path.exists(index_file):
         logger.info("Carregando embeddings, chunks e índice do disco.")
         with open(embeddings_file, 'rb') as f:
