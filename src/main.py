@@ -2,7 +2,6 @@ import os
 import logging
 from dotenv import load_dotenv
 from openai import OpenAI
-import faiss
 from typing import List
 
 from functions import load_embeddings, get_github_wiki, split_text_into_chunks, save_embeddings, create_faiss_index, get_embeddings, answer_query, download_repository, read_repository_files
