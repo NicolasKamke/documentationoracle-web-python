@@ -11,7 +11,7 @@ def answer_query(query: str, index: faiss.IndexFlatL2, chunks: List[str], client
     query_embedding = get_embedding(query, client)
     indices, distances = search_index(index, query_embedding, k)
     relevant_chunks = [chunks[i] for i in indices]
-    context = '\n\n'.join(relevant_chunks)
+    context = "\n\n".join([f"Contexto (distância {dist:.4f}):\n{chunk}" for chunk, dist in zip(relevant_chunks, distances)])
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
