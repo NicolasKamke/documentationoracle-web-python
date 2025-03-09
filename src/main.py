@@ -25,7 +25,7 @@ def main():
     embeddings, chunks, index = load_embeddings()
     if embeddings is None:
         wiki_text = get_github_wiki(WIKI_RAW_URL)
-        chunks = split_text_into_chunks(wiki_text)
+        chunks = split_text_into_chunks(wiki_text)        
         embeddings = get_embeddings(chunks, client)
         index = create_faiss_index(embeddings)
         save_embeddings(embeddings, chunks, index)
@@ -38,9 +38,9 @@ def main():
         query = input(">> ")
         if query.lower() == 'sair':
             break
+            
         answer = answer_query(query, index, chunks, client)
         print("\nResposta:\n", answer)
-
 
 
 # Exemplo de uso

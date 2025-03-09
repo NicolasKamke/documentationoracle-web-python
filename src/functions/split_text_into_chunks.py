@@ -1,11 +1,15 @@
 import logging
 from typing import List
 import re
+from .clear_text import clear_text
 
 logger = logging.getLogger(__name__)
 
-def split_text_into_chunks(text: str, max_chunk_size: int = 5000) -> List[str]:
+
+
+def split_text_into_chunks(text: str, max_chunk_size: int = 1000) -> List[str]:
     logger.info("Dividindo o texto em chunks.")
+    text = clear_text(text)
     sentences = re.split(r'(?<=[.?!])\s+', text)
     chunks = []
     current_chunk = ''
@@ -17,5 +21,5 @@ def split_text_into_chunks(text: str, max_chunk_size: int = 5000) -> List[str]:
             current_chunk = sentence
     if current_chunk:
         chunks.append(current_chunk.strip())
-    logger.info(f"Total de chunks criados: {len(chunks)}")
+    logging.info(f"Total de chunks criados: {len(chunks)}")
     return chunks
