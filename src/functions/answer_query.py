@@ -16,7 +16,7 @@ def answer_query(query: str, index: faiss.IndexFlatL2, chunks: List[str], client
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "Você é um chatbot que responde perguntas sobre projetos da empresa."},
+                {"role": "system", "content": "Você é um chatbot que só responde perguntas sobre projetos da empresa."},
                 {"role": "system", "content": f"Contexto:\n{context}\n\n"},
                 {"role": "user", "content": f"Pergunta: {query}"}
             ],
