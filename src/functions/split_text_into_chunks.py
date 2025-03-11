@@ -6,12 +6,10 @@ from .clear_text import clear_text
 
 logger = logging.getLogger(__name__)
 
-
-
 def split_text_into_chunks(text: str, max_chunk_size: int = 5000) -> List[str]:
     logger.info("Dividindo o texto em chunks.")
     text = clear_text(text)
-    enc = tiktoken.get_encoding("cl100k_base")  # Codificação padrão usada pelo GPT-3
+    enc = tiktoken.get_encoding("cl100k_base")  # Codificação padrão usada pelo GPT-4
     tokens = enc.encode(text)
     
     # Dividir os tokens em chunks que respeitem o tamanho máximo

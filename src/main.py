@@ -13,7 +13,7 @@ load_dotenv()
 # Configuração da API
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 WIKI_RAW_URLS = ["https://raw.githubusercontent.com/wiki/NicolasKamke/myfinance-web-react/Home.md"]
-REPOSITORY_URLS = ["https://github.com/NicolasKamke/myfinance-web-react/archive/main.zip"]
+REPOSITORY_URLS = ["https://github.com/NicolasKamke/myfinance-web-react/archive/main.zip", "https://github.com/NicolasKamke/myfinance-web-dotnet/archive/main.zip"]
 
 def main():
     if not OPENAI_API_KEY:
