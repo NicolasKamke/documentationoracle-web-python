@@ -11,13 +11,13 @@ def answer_query(query: str, index: faiss.IndexFlatL2, chunks: List[str], client
     query_embedding = get_embedding(query, client)
     indices, distances = search_index(index, query_embedding, k)
     relevant_chunks = [chunks[i] for i in indices]
-    context = "\n\n".join([f"Contexto (distância {dist:.4f}):\n{chunk}" for chunk, dist in zip(relevant_chunks, distances)])
+    context = "\n\n".join([f"Contexto: (distância {dist:.4f}):\n{chunk}" for chunk, dist in zip(relevant_chunks, distances)])
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {"role": "system", "content": "Você é um chatbot que só responde perguntas sobre projetos da empresa."},
-                {"role": "system", "content": f"Contexto:\n{context}\n\n"},
+                {"role": "system", "content": context},
                 {"role": "user", "content": f"Pergunta: {query}"}
             ],
             temperature=1

@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from typing import List, Dict
 
-from functions import load_embeddings, get_github_wiki, split_text_into_chunks, save_embeddings, create_faiss_index, get_embeddings, answer_query, download_repository, read_repository_files
+from functions import load_embeddings, get_github_wiki, split_text_into_chunks, save_embeddings, create_faiss_index, get_embeddings, answer_query, download_repository, read_repository_files, decide_api, agent_fetch_data
 
 # Configuração do logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] %(message)s')
@@ -48,8 +48,15 @@ def main():
         query = input(">> ")
         if query.lower() == 'sair':
             break
+
+        decision = decide_api(query, index, chunks, client)
+        if decision is None:
+            logging.info("Get Data From RAG")
+            answer = answer_query(query, index, chunks, client)
+        else:
+            logging.info("Get Data From API")
+            answer = agent_fetch_data(decision)
             
-        answer = answer_query(query, index, chunks, client)
         print("\nResposta:\n", answer)
 
 
