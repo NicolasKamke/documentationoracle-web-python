@@ -23,8 +23,11 @@ def decide_api(query: str, index: faiss.IndexFlatL2, chunks: List[str], client, 
         response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
-                {"role": "system", "content": "Você é um assistente que encontra a API correta para chamar com base na documentação do sistema. "},
-                {"role": "system", "content": "Caso for para acionar uma api retorne um json com 'api' (nome da API), 'endpoint' (IP + PORTA + PATH), 'method' (GET/POST) e 'params' (parâmetros e valores esperados). Caso contrário, retorne 'None'."},
+                {"role": "system", "content": "Você é um assistente que encontra a API correta para chamar com base na documentação do sistema. Caso a consulta envolva uma ação específica, retorne um objeto JSON com 'api' (nome da API), 'endpoint' (IP + PORTA + PATH), 'method' (GET/POST) e 'params' (parâmetros). Caso contrário, retorne 'None'."},
+                {"role": "system", "content": "Os tipos das propriedades devem ser: 'api': 'string', 'endpoint': 'string', 'method': 'string', 'params': 'dictionary'. Se não for possível, retorne 'None'."},
+                {"role": "system", "content": "Não deve retornar arrays para 'api', 'endpoint', 'method' ou 'params'. Caso contrário, retorne 'None'."},
+                {"role": "system", "content": "Somente retorne um objeto com 'api', 'endpoint', 'method' e 'params' se a consulta envolver uma ação específica. Se a consulta for muito genérica (ex.: 'Liste os endpoints'), retorne 'None'."},
+                {"role": "system", "content": "Se a consulta envolver parâmetros como datas ou filtros específicos, retorne o objeto que corresponda à ação de consulta relacionada."},
                 {"role": "system", "content": f"Documentação da API:\n{context}"},
                 {"role": "user", "content": f"Pergunta '{query}'"}
             ],
