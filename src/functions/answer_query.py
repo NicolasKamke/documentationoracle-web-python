@@ -20,7 +20,7 @@ def answer_query(query: str, index: faiss.IndexFlatL2, chunks: List[str], client
                 {"role": "system", "content": context},
                 {"role": "user", "content": f"Pergunta: {query}"}
             ],
-            temperature=1
+            temperature=0.5
         )
         answer = response.choices[0].message.content
         return answer

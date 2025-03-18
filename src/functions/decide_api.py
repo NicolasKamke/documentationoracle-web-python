@@ -31,7 +31,7 @@ def decide_api(query: str, index: faiss.IndexFlatL2, chunks: List[str], client, 
                 {"role": "system", "content": f"Documentação da API:\n{context}"},
                 {"role": "user", "content": f"Pergunta '{query}'"}
             ],
-            temperature=1
+            temperature=0.5
         )
         decision = response.choices[0].message.content
 
